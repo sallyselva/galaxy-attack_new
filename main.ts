@@ -10,10 +10,8 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite2, otherS
     info.changeLifeBy(-1)
     enemyDeath(otherSprite2)
     music.play(music.melodyPlayable(music.powerDown), music.PlaybackMode.UntilDone)
-    if (info.life() == 0) {
-        web.open("https://115.111.238.147:889/api/ECommReflection?playername=" + info.score() + "&score=" + info.score())
-        game.over(false)
-    }
+    // web.open("https://115.111.238.147:889/api/ECommReflection?playername=" + info.score() + "&score=" + info.score())
+    // game.over(false)   
 })
 statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
@@ -23,8 +21,12 @@ function enemyDeath (enemy: Sprite) {
     sprites.destroy(enemy, effects.disintegrate, 500)
 }
 info.onLifeZero(function () {
-    carnival.customGameOverExpanded("You Died")
-    carnival.onGameOverExpanded(carnival.WinTypes.Score)
+    //let textSprite = textsprite.create("hi")
+    info.score()
+    web.open("https://115.111.238.147:889/api/ECommReflection?playername=" + info.score() + "&score=" + info.score())
+    game.over(false)
+    //carnival.customGameOverExpanded("You Died")
+    //carnival.onGameOverExpanded(carnival.WinTypes.Score)
 })
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
     statusbars.getStatusBarAttachedTo(StatusBarKind.EnemyHealth, otherSprite).value += -30
@@ -40,7 +42,7 @@ mySprite = sprites.create(assets.image`myImage6`, SpriteKind.Player)
 controller.moveSprite(mySprite)
 mySprite.setStayInScreen(true)
 info.setScore(0)
-info.setLife(5)
+info.setLife(1)
 scroller.scrollBackgroundWithSpeed(-90, 0)
 game.onUpdateInterval(2000, function () {
     enemyShip = sprites.create(img`
